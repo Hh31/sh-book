@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PagesController@home')->name('home');
+Route::redirect('/', '/books')->name('home');
+Route::get('books', 'BooksController@index')->name('books.index');
+Route::get('books/category', 'BooksController@category')->name('books.category');
+Route::get('books/{book}', 'BooksController@show')->name('books.show');
+
+
+Auth::routes();
+
