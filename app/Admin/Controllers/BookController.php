@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -91,8 +92,8 @@ class BookController extends AdminController
 
         $form->text('user_id', '用户id')->rules('required');
 
-        $form->text('category_id', '分类id')->rules('required');
-
+//        $form->text('category_id', '分类id')->rules('required');
+        $form->select('category_id', '所属分类')->options( Category::all()->pluck('name', 'id')->toArray());
         // 创建一个选择图片的框
         $form->image('image', '封面图片')->rules('required|image');
 

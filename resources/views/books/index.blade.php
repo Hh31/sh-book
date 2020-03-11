@@ -11,6 +11,7 @@
                         <div class="form-row">
                             <div class="col-md-9">
                                 <div class="form-row">
+                                    <input id="cateId" hidden name="cateId" value="{{$cateId}}">
                                     <div class="col-auto"><input type="text" class="form-control form-control-sm" name="search" placeholder="书名或作者"></div>
                                     <div class="col-auto"><button class="btn btn-primary btn-sm">搜索</button></div>
                                 </div>
@@ -32,7 +33,7 @@
                                     <div class="top">
                                         <div class="img">
                                             <a href="{{ route('books.show', ['book' => $book->id]) }}">
-                                                <img src="{{ $book->image_url }}" alt="">
+                                                <img src="{{ $book->image_url }}" height="240" alt="">
                                             </a>
                                         </div>
                                         <div class="price"><b>￥</b>{{ $book->price }}</div>
@@ -58,11 +59,17 @@
 @endsection
 
 @section('scriptsAfterJs')
+
+
     <script>
+
         var filters = {!! json_encode($filters) !!};
         $(document).ready(function () {
             $('.search-form input[name=search]').val(filters.search);
             $('.search-form select[name=order]').val(filters.order);
+            $('.search-form select[name=order]').on('change', function() {
+                $('.search-form').submit();
+            });
         })
     </script>
 @endsection

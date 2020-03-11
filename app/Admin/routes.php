@@ -17,5 +17,6 @@ Route::group([
     $router->post('books', 'BookController@store');
     $router->get('books/{id}/edit', 'BookController@edit');
     $router->put('books/{id}', 'BookController@update');
+    $router->resource('categories', 'CategoriesController');
 
 });

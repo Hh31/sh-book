@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','introduction','avatar','qq','phone','school'
     ];
 
     /**
@@ -36,4 +36,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function favoriteBooks()
+    {
+        return $this->belongsToMany(Book::class, 'user_favorite_books')
+            ->withTimestamps();
+//            ->orderBy('user_favorite_books.created_at', 'desc');
+    }
 }

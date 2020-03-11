@@ -2,25 +2,17 @@
     <div class="container">
         <!-- Branding Image -->
         <a class="navbar-brand " href="{{ url('/') }}">
-            首 页
+            看对上眼就行
         </a>
         <div class="btn-group">
-            <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                分类 <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="{{route('books.category')}}">教材</a></li>
-                <li><a href="#">辅导书</a></li>
-                <li><a href="#">计算机类</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">课外读物</a></li>
-                <li><a href="#">经管类</a></li>
-                <li><a href="#">其他</a></li>
+            <ul class="navbar-nav mr-auto">
+                @foreach($categories as $category)
+                    <li class="nav-item "><a class="nav-link" href="{{route('books.category',['category' => $category->id])}}">{{ $category->name }}</a></li>
+                @endforeach
+                <li class="nav-item "><a class="nav-link" href="{{route('info.index')}}">查看帮助</a></li>
             </ul>
         </div>
-        <div>
-            求购
-        </div>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,22 +21,37 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
 
+
             </ul>
+
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav navbar-right">
                 <!-- 登录注册链接开始 -->
                 @guest
+                    <li class="nav-item">
+                        <a class="nav-link mt-1 mr-3 font-weight-bold" href="{{ route('books.create') }}">
+                            <span class="glyphicon glyphicon-plus">上传</span>
+                        </a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">登录</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">注册</a></li>
                 @else
+                    <p>
+                        <a class="nav-link mt-1 mr-3 font-weight-bold" href="{{ route('books.create') }}">
+                            <span class="glyphicon glyphicon-plus"></span>上传
+                        </a>
+                    </p>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="https://cdn.learnku.com/uploads/images/201709/20/1/PtDKbASVcz.png?imageView2/1/w/60/h/60" class="img-responsive img-circle" width="30px" height="30px">
+                            <img src="{{ Auth::user()->avatar }}" class="img-responsive img-circle" width="30px" height="30px">
                             {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" id="logout" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">退出登录</a>
+                            <a href="{{ route('books.create', Auth::id()) }}" class="dropdown-item">我的收藏</a>
+                            <a class="dropdown-item" href="{{ route('users.show', Auth::id()) }}">个人中心</a>
+                            <a class="dropdown-item" href="{{ route('users.edit', Auth::id()) }}">编辑资料</a>
+                            <a class="dropdown-item" id="logout" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">注销</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
